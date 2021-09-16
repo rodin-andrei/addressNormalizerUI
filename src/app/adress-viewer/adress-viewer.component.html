@@ -1,0 +1,37 @@
+<nz-table #basicTable [nzTotal]=addressCount [nzData]="listOfData" [nzFrontPagination]="false"
+          (nzPageIndexChange)="changePage($event)">
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>postCode</th>
+    <th>distric</th>
+    <th>typeCity</th>
+    <th>city</th>
+    <th>typeStreet</th>
+    <th>street</th>
+    <th>house</th>
+    <th>flat</th>
+    <th>statutADRESA</th>
+    <th>phoneNumber</th>
+    <th>statuttelefon</th>
+    <th>proprietartelefon</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of basicTable.data">
+    <td>{{data.id}}</td>
+    <td>{{data.postCode}}</td>
+    <td>{{data.distric}}</td>
+    <td>{{data.typeCity}}</td>
+    <td>{{data.city}}</td>
+    <td>{{data.typeStreet}}</td>
+    <td>{{data.street}}</td>
+    <td>{{data.house}}</td>
+    <td>{{data.flat}}</td>
+    <td>{{data.statutADRESA}}</td>
+    <td>{{data.phoneNumber}}</td>
+    <td>{{data.statuttelefon}}</td>
+    <td>{{data.proprietartelefon}}</td>
+  </tr>
+  </tbody>
+</nz-table>
