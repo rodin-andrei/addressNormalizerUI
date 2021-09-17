@@ -1,17 +1,38 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Page} from '../adress-viewer/adress-viewer.component';
+import {PageAddress} from '../adress-viewer/adress-viewer.component';
+import {OriginalCityName, PageOriginalCity} from '../city-dictionary/city-dictionary.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
+
   constructor(private http: HttpClient) {
   }
 
-  getConfig(page: number, size: number): Observable<Page> {
-    let result: Observable<Page> = this.http.get<Page>("api/getAdresses?pageNumber=" + page + "&sizeNumber=" + size)
-    return result;
+  getAdresses(page: number, size: number): Observable<PageAddress> {
+    return this.http.get<PageAddress>("api/getAddresses?pageNumber=" + page + "&sizeNumber=" + size);
+  }
+
+  getOriginalCityes(page: number, size: number): Observable<PageOriginalCity> {
+    return this.http.get<PageOriginalCity>("api/getDictionaryCityNames?pageNumber=" + page + "&sizeNumber=" + size);
+  }
+
+  deleteAlternativeCityName(id: number): Observable<void> {
+    return this.http.get<void>("api/deleteAlternativeCityName?id=" + id)
+  }
+
+  createNewAlternativeCityName(title: string, id: number): Observable<OriginalCityName> {
+    return this.http.get<OriginalCityName>("api/createAlternativeCityName?title=" + title + "&id=" + id)
+  }
+
+  createOriginalCityNameFromAlternativeCityName(id: number): Observable<OriginalCityName>  {
+    return this.http.get<OriginalCityName>('api/createOriginalCityNameFromAlternativeCityNamef?id=' + 6);
+  }
+
+  removeOriginalCityName(id:number):Observable<void>{
+    return this.http.get<void>('api/removeOriginalCityName?id='+id);
   }
 }

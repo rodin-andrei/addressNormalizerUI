@@ -7,13 +7,10 @@ import {RestService} from '../service/RestService';
   styleUrls: ['./adress-viewer.component.css']
 })
 export class AdressViewerComponent implements OnInit {
-  listOfData: Address[] = []
-  ;
+  listOfData: Address[] = [];
   addressCount: number = 100;
 
   constructor(private restService: RestService) {
-
-
   }
 
   ngOnInit(): void {
@@ -22,7 +19,7 @@ export class AdressViewerComponent implements OnInit {
   }
 
   changePage(page: number) {
-    let config = this.restService.getConfig(page - 1, 10);
+    let config = this.restService.getAdresses(page - 1, 10);
     config.subscribe(page => {
       this.listOfData = [...page.content]
       this.addressCount = page.totalElements;
@@ -47,7 +44,7 @@ export interface Address {
   proprietartelefon: string;
 }
 
-export interface Page {
+export interface PageAddress {
   content: Address[];
   totalElements: number
 }
