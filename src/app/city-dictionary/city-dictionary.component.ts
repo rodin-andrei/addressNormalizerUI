@@ -3,6 +3,7 @@ import {RestService} from '../service/RestService';
 import {NzMessageService} from "ng-zorro-antd/message";
 import {catchError, timeout} from "rxjs/operators";
 import {throwError} from "rxjs";
+import {basename} from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Component({
   selector: 'app-city-dictionary',
@@ -23,6 +24,7 @@ export class CityDictionaryComponent implements OnInit {
   }
 
   changePage(page: number) {
+    console.log("changePage")
     this.restService.getOriginalCityes(page - 1, 10)
       .pipe(
         catchError((error, test2) => {
@@ -36,6 +38,7 @@ export class CityDictionaryComponent implements OnInit {
   }
 
   addNewAlternativeCityName(originalCityName: OriginalCityName): void {
+    console.log("addNewAlternativeCityName")
     this.restService.createNewAlternativeCityName(this.inputValue, originalCityName.id)
       .pipe(
         catchError((error, test2) => {
@@ -59,7 +62,6 @@ export class CityDictionaryComponent implements OnInit {
 
   deleteAltName(cityName: OriginalCityName, alternativeCityName: OriginalCityName) {
     console.log("deleteAltName")
-
     this.restService.deleteAlternativeCityName(alternativeCityName.id)
       .pipe(
         catchError((error, test2) => {
@@ -74,11 +76,6 @@ export class CityDictionaryComponent implements OnInit {
       })
       cityName.alternativeCityNames = temp;
     })
-
-  }
-
-  changeCity(id: number) {
-
   }
 
   createAsCity(cityName: OriginalCityName, alternativeCityName: OriginalCityName) {
@@ -97,6 +94,11 @@ export class CityDictionaryComponent implements OnInit {
         if (value != alternativeCityName) temp.push(value);
       })
       cityName.alternativeCityNames = temp;
+
+      let temp2: OriginalCityName[] = [...this.originalCityNames]
+      temp2.push(value);
+      this.originalCityNames=temp2;
+
     });
   }
 
@@ -127,7 +129,25 @@ export class CityDictionaryComponent implements OnInit {
   }
 
 
+  makeOriginalCityName(originalCityName: OriginalCityName, alternativeCityName: OriginalCityName) {
+    console.log("deleteOriginalCityName")
+    this.restService.makeOriginalCityName(alternativeCityName.id)
+      .pipe(
+        catchError((error, test2) => {
+          this.message.create("error", error.error.detail)
+          return throwError('Something bad happened; please try again later.');
+        })
+      )
+      .subscribe(value => {
+        this.message.create("success","operation success")
+        let title = originalCityName.title;
+        originalCityName.title= alternativeCityName.title
+        alternativeCityName.title=title
+      });
+  }
 }
+
+
 
 export interface OriginalCityName {
   id: number,

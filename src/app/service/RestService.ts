@@ -29,10 +29,14 @@ export class RestService {
   }
 
   createOriginalCityNameFromAlternativeCityName(id: number): Observable<OriginalCityName>  {
-    return this.http.get<OriginalCityName>('api/createOriginalCityNameFromAlternativeCityNamef?id=' + 6);
+    return this.http.get<OriginalCityName>('api/createOriginalCityNameFromAlternativeCityName?id=' + id);
   }
 
   removeOriginalCityName(id:number):Observable<void>{
     return this.http.get<void>('api/removeOriginalCityName?id='+id);
+  }
+
+  makeOriginalCityName(id: number):Observable<OriginalCityName> {
+    return this.http.get<OriginalCityName>('api/makeOriginalCityName?id=' + id);
   }
 }

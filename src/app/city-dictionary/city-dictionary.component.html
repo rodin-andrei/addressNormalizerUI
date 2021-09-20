@@ -18,8 +18,8 @@
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu>
             <li (click)="deleteAltName(originalCityName,alternativeCityName)" nz-menu-item>Delete</li>
-            <li (click)="changeCity(alternativeCityName.id)" nz-menu-item>Move to another city</li>
             <li (click)="createAsCity(originalCityName,alternativeCityName)" nz-menu-item>Make new city</li>
+            <li (click)="makeOriginalCityName(originalCityName,alternativeCityName)" nz-menu-item>Mark as correct name</li>
           </ul>
         </nz-dropdown-menu>
       </nz-tag>
