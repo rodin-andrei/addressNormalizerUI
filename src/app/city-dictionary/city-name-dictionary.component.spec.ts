@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {CityDictionaryComponent} from './city-dictionary.component';
+import {CityNameDictionaryComponent} from './city-name-dictionary.component';
 
 describe('CityDictionaryComponent', () => {
-  let component: CityDictionaryComponent;
-  let fixture: ComponentFixture<CityDictionaryComponent>;
+  let component: CityNameDictionaryComponent;
+  let fixture: ComponentFixture<CityNameDictionaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CityDictionaryComponent]
+      declarations: [CityNameDictionaryComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CityDictionaryComponent);
+    fixture = TestBed.createComponent(CityNameDictionaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,37 +1,166 @@
+
 <nz-table #basicTable [nzTotal]=addressCount [nzData]="listOfData" [nzFrontPagination]="false"
-          (nzPageIndexChange)="changePage($event)">
+          (nzPageIndexChange)="changePageFix($event,true)" [(nzPageIndex)]="pageNumber">
   <thead>
   <tr>
-    <th>id</th>
-    <th>Post Code</th>
-    <th>District</th>
-    <th>City type</th>
-    <th>City</th>
-    <th>Street type</th>
-    <th>Street</th>
-    <th>House</th>
-    <th>Flat</th>
-    <th>Statut Adresa</th>
-    <th>Phone Number</th>
-    <th>Statut Telefon</th>
-    <th>Proprietar Telefon</th>
+    <th>id
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="0" #inputId nz-input
+                                                                                       [(ngModel)]="filter_id"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Post Code
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="1" #inputPostCode nz-input
+                                                                                       [(ngModel)]="filter_post_Code"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>District
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="2" #inputDistrict nz-input
+                                                                                       [(ngModel)]="filter_district"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>City type
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="3" #inputCityType nz-input
+                                                                                       [(ngModel)]="filter_correct_City_Type"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>City
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="4" #inputCityName nz-input
+                                                                                       [(ngModel)]="filter_correct_City_Name"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Street type
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="5" #inputStreetType nz-input
+                                                                                       [(ngModel)]="filter_correct_Street_Type"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Street
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="6" #inputStreetName nz-input
+                                                                                       [(ngModel)]="filter_correct_Street_Name"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>House
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="7" #inputHouse nz-input
+                                                                                       [(ngModel)]="filter_house"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Flat
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="8" #inputFlat nz-input
+                                                                                       [(ngModel)]="filter_flat"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       (blur)="changePage(1)"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Statut Adresa
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="9" #inputStatutAdresa
+                                                                                       nz-input
+                                                                                       [(ngModel)]="filter_statut_Adresa"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Phone Number
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="10" #inputPhoneNumber
+                                                                                       nz-input
+                                                                                       [(ngModel)]="filter_phone_Number"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Statut Telefon
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="11" #inputStatutTelefon
+                                                                                       nz-input
+                                                                                       [(ngModel)]="filter_statut_Telefon"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
+    <th>Proprietar Telefon
+      <div><i style="width: 20%;" nz-icon nzType="filter" nzTheme="outline"></i><input id="12" #inputProprietarTelefon
+                                                                                       nz-input
+                                                                                       [(ngModel)]="filter_proprietar_Telefon"
+                                                                                       (ngModelChange)="this.changed=true"
+                                                                                       (blur)="changePage(1)"
+                                                                                       (keydown.enter)="changePage(1)"
+                                                                                       type="text"
+                                                                                       style="width: 80%; "/></div>
+    </th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let data of basicTable.data">
     <td>{{data.id}}</td>
-    <td>{{data.postCode}}</td>
-    <td>{{data.distric}}</td>
-    <td>{{data.typeCity}}</td>
-    <td>{{data.city}}</td>
-    <td>{{data.typeStreet}}</td>
-    <td>{{data.street}}</td>
+    <td>{{data.post_Code}}</td>
+    <td>{{data.district}}</td>
+    <td>{{data.type_City}}
+      <div style="color: red"
+           *ngIf="data.correct_City_Type!=null   && data.correct_City_Type!='' && data.correct_City_Type != data.type_City">
+        ({{data.correct_City_Type}})
+      </div>
+    </td>
+    <td>{{data.city}}
+      <div style="color: red"
+           *ngIf="data.correct_City_Name!=null   && data.correct_City_Name!='' && data.correct_City_Name != data.city">
+        ({{data.correct_City_Name}})
+      </div>
+    </td>
+    <td>{{data.type_Street}}
+      <div style="color: red"
+           *ngIf="data.correct_Street_Type!=null && data.correct_Street_Type!='' && data.correct_Street_Type != data.type_Street">
+        ({{data.correct_Street_Type}})
+      </div>
+    </td>
+    <td>{{data.street}}
+      <div style="color: red"
+           *ngIf="data.correct_Street_Name!=null && data.correct_Street_Name!='' && data.correct_Street_Name != data.street">
+        ({{data.correct_Street_Name}})
+      </div>
+    </td>
     <td>{{data.house}}</td>
     <td>{{data.flat}}</td>
-    <td>{{data.statutADRESA}}</td>
-    <td>{{data.phoneNumber}}</td>
-    <td>{{data.statuttelefon}}</td>
-    <td>{{data.proprietartelefon}}</td>
+    <td>{{data.statut_Adresa}}</td>
+    <td>{{data.phone_Number}}</td>
+    <td>{{data.statut_Telefon}}</td>
+    <td>{{data.proprietar_Telefon}}</td>
   </tr>
   </tbody>
 </nz-table>

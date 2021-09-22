@@ -7,10 +7,10 @@ import {basename} from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Component({
   selector: 'app-city-dictionary',
-  templateUrl: './city-dictionary.component.html',
-  styleUrls: ['./city-dictionary.component.css']
+  templateUrl: './city-name-dictionary.component.html',
+  styleUrls: ['./city-name-dictionary.component.css']
 })
-export class CityDictionaryComponent implements OnInit {
+export class CityNameDictionaryComponent implements OnInit {
 
   objectsCount: number = 100;
   originalCityNames: OriginalCityName[] = [];
@@ -25,7 +25,7 @@ export class CityDictionaryComponent implements OnInit {
 
   changePage(page: number) {
     console.log("changePage")
-    this.restService.getOriginalCityes(page - 1, 10)
+    this.restService.getOriginalCityNames(page - 1, 10)
       .pipe(
         catchError((error, test2) => {
           this.message.create("error", error.error.detail)
@@ -156,7 +156,7 @@ export interface OriginalCityName {
   visibleInputNewName: boolean
 }
 
-export interface PageOriginalCity {
+export interface PageOriginalCityName {
   content: OriginalCityName[];
   totalElements: number
 }

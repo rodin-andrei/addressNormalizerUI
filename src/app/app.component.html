@@ -7,12 +7,16 @@
     <nz-sider nzWidth="200px" nzTheme="light">
       <ul nz-menu nzMode="inline" class="sider-menu">
         <ul>
-          <li nz-menu-item nzSelected>Addresses</li>
+          <li nz-menu-item nzSelected routerLink="/addressViewer"> <i nz-icon nzType="home" nzTheme="outline" style="margin-right: 10px"></i>  Addresses</li>
+
         </ul>
-        <li nz-submenu nzTitle="Dictionary" nzIcon="laptop">
+
+        <li nz-submenu nzTitle="Dictionary" nzIcon="laptop" [nzOpen]="true">
           <ul>
-            <li nz-menu-item>Cities</li>
-            <li nz-menu-item>Streets</li>
+            <li nz-menu-item routerLink="/cityNameDictionary">Cities<nz-badge  nzDot="dot" [nzStyle]="{backgroundColor: '#d4380d'}"> </nz-badge></li>
+            <li nz-menu-item routerLink="/cityTypeDictionary">City types<nz-badge  nzDot="dot" [nzStyle]="{backgroundColor: '#d4380d'}"> </nz-badge></li>
+            <li nz-menu-item routerLink="/streetNameDictionary">Streets<nz-badge  nzDot="dot" [nzStyle]="{backgroundColor: '#d4380d'}">  </nz-badge></li>
+            <li nz-menu-item routerLink="/streetTypeDictionary">Street types<nz-badge  nzDot="dot" [nzStyle]="{backgroundColor: '#d4380d'}"> </nz-badge></li>
           </ul>
         </li>
       </ul>
@@ -22,7 +26,8 @@
         <nz-breadcrumb-item>Addresses</nz-breadcrumb-item>
       </nz-breadcrumb>
       <nz-content>
-        <app-city-dictionary></app-city-dictionary>
+        <router-outlet></router-outlet>
+<!--        <app-city-dictionary></app-city-dictionary>-->
 <!--        <app-adress-viewer></app-adress-viewer>-->
        </nz-content>
     </nz-layout>

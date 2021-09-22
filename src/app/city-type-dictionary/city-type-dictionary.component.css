@@ -1,0 +1,7 @@
+nz-tag{
+  margin-bottom: 5px;
+}
+.scrollable-container {
+  height: 108px;
+  overflow-y: scroll;
+}
