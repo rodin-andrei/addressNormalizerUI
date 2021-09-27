@@ -1,9 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RestService} from '../service/RestService';
 import {NzMessageService} from "ng-zorro-antd/message";
-import {catchError, timeout} from "rxjs/operators";
+import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
-import {basename} from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Component({
   selector: 'app-city-dictionary',
@@ -14,17 +13,23 @@ export class CityNameDictionaryComponent implements OnInit {
 
   objectsCount: number = 100;
   originalCityNames: OriginalCityName[] = [];
-  inputValue = '';
+  unidentifiedCityNames: string[] = []
+  uniqueOriginalCityNames: OriginalCityName[] = [];
+  selectedValue: number = 1;
+  popoverVisible: boolean = false;
+  unidentifiedCityName: string = '';
+
 
   constructor(private restService: RestService, public message: NzMessageService) {
   }
 
   ngOnInit(): void {
-    this.changePage(1)
+    this.onChangePage(1)
+    this.loadIncorrectCities();
   }
 
-  changePage(page: number) {
-    console.log("changePage")
+  onChangePage(page: number) {
+    console.log("changePage: " + page)
     this.restService.getOriginalCityNames(page - 1, 10)
       .pipe(
         catchError((error, test2) => {
@@ -37,45 +42,25 @@ export class CityNameDictionaryComponent implements OnInit {
     });
   }
 
-  addNewAlternativeCityName(originalCityName: OriginalCityName): void {
-    console.log("addNewAlternativeCityName")
-    this.restService.createNewAlternativeCityName(this.inputValue, originalCityName.id)
-      .pipe(
-        catchError((error, test2) => {
-          this.message.create("error", error.error.detail)
-          return throwError('Something bad happened; please try again later.');
-        })
-      ).subscribe(value => {
-      this.message.create("success", "Successful added " + value.title)
-      let temp = [...originalCityName.alternativeCityNames];
-      temp.push(value)
-      originalCityName.alternativeCityNames = temp
-    })
-    this.inputValue = '';
-    originalCityName.visibleInputNewName = false
-  }
-
-  handleInputEscape(cityName: OriginalCityName) {
-    cityName.visibleInputNewName = false
-    this.inputValue = '';
-  }
 
   deleteAltName(cityName: OriginalCityName, alternativeCityName: OriginalCityName) {
     console.log("deleteAltName")
-    this.restService.deleteAlternativeCityName(alternativeCityName.id)
+    this.restService.removeAlternativeCityName(alternativeCityName.id)
       .pipe(
         catchError((error, test2) => {
           this.message.create("error", error.error.detail)
           return throwError('Something bad happened; please try again later.');
         })
-      ).subscribe(value => {
-      this.message.create("success", alternativeCityName.title + " has been deleted")
-      let temp: OriginalCityName[] = []
-      cityName.alternativeCityNames.forEach(value => {
-        if (value != alternativeCityName) temp.push(value);
+      )
+      .subscribe(value => {
+        this.message.create("success", alternativeCityName.title + " has been deleted")
+        let temp: OriginalCityName[] = []
+        cityName.alternativeCityNames.forEach(value => {
+          if (value != alternativeCityName) temp.push(value);
+        })
+        cityName.alternativeCityNames = temp;
+        this.loadIncorrectCities();
       })
-      cityName.alternativeCityNames = temp;
-    })
   }
 
   createAsCity(cityName: OriginalCityName, alternativeCityName: OriginalCityName) {
@@ -97,16 +82,9 @@ export class CityNameDictionaryComponent implements OnInit {
 
       let temp2: OriginalCityName[] = [...this.originalCityNames]
       temp2.push(value);
-      this.originalCityNames=temp2;
+      this.originalCityNames = temp2;
 
     });
-  }
-
-  showInputNewAlternativeCityName(originalCityName: OriginalCityName) {
-    originalCityName.visibleInputNewName = true
-    setTimeout(() => {
-      (document.getElementById("addNewAlternativeCityNameId")as HTMLElement).focus();
-    }, 10);
   }
 
   deleteOriginalCityName(originalCityName: OriginalCityName) {
@@ -125,9 +103,9 @@ export class CityNameDictionaryComponent implements OnInit {
           if (value != originalCityName) temp.push(value);
         })
         this.originalCityNames = temp;
+        this.loadIncorrectCities();
       });
   }
-
 
   makeOriginalCityName(originalCityName: OriginalCityName, alternativeCityName: OriginalCityName) {
     console.log("deleteOriginalCityName")
@@ -139,21 +117,69 @@ export class CityNameDictionaryComponent implements OnInit {
         })
       )
       .subscribe(value => {
-        this.message.create("success","operation success")
+        this.message.create("success", "operation success")
         let title = originalCityName.title;
-        originalCityName.title= alternativeCityName.title
-        alternativeCityName.title=title
+        originalCityName.title = alternativeCityName.title
+        alternativeCityName.title = title
       });
   }
-}
 
+  createNewCity(unidentifiedCityName: String) {
+    this.restService.createNewOriginalCityName(unidentifiedCityName)
+      .pipe(
+        catchError((error, test2) => {
+          this.message.create("error", error.error.detail)
+          return throwError('Something bad happened; please try again later.');
+        })
+      )
+      .subscribe(value => {
+        this.message.create("success", "operation success")
+        let temp2: OriginalCityName[] = [...this.originalCityNames]
+        temp2.push(value);
+        this.originalCityNames = temp2;
+        this.loadIncorrectCities();
+      });
+
+
+  }
+
+  loadUniqueOriginalCityNames() {
+    this.restService.getUniqueOriginalCityNames()
+      .subscribe(value => {
+        this.uniqueOriginalCityNames = value;
+      });
+
+  }
+
+  onChangeNewCity() {
+    console.log("CreateNewAlternativeCityName")
+    this.popoverVisible = false;
+    this.restService.createNewAlternativeCityName(this.unidentifiedCityName, this.selectedValue)
+      .pipe(
+        catchError((error, test2) => {
+          this.message.create("error", error.error.detail)
+          return throwError('Something bad happened; please try again later.');
+        })
+      )
+      .subscribe(value => {
+        this.message.create("success", "operation success")
+        this.loadIncorrectCities();
+      });
+    this.selectedValue=-1;
+  }
+
+  private loadIncorrectCities() {
+    this.restService.findUnidentifiedCityNames().subscribe(value => {
+      this.unidentifiedCityNames = value.sort();
+    })
+  }
+}
 
 
 export interface OriginalCityName {
   id: number,
   title: string,
   alternativeCityNames: OriginalCityName[],
-  visibleInputNewName: boolean
 }
 
 export interface PageOriginalCityName {

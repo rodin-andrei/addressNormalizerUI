@@ -5,3 +5,6 @@ nz-tag{
   height: 108px;
   overflow-y: scroll;
 }
+nz-select {
+  width: 200px;
+}

@@ -1,12 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RestService} from '../service/RestService';
 import {NzMessageService} from "ng-zorro-antd/message";
-import {catchError, timeout} from "rxjs/operators";
+import {catchError} from "rxjs/operators";
 import {throwError} from "rxjs";
-import {basename} from "@angular/compiler-cli/src/ngtsc/file_system";
 
 @Component({
-  selector: 'app-city-type-dictionary',
+  selector: 'app-city-dictionary',
   templateUrl: './city-type-dictionary.component.html',
   styleUrls: ['./city-type-dictionary.component.css']
 })
@@ -14,17 +13,23 @@ export class CityTypeDictionaryComponent implements OnInit {
 
   objectsCount: number = 100;
   originalCityTypes: OriginalCityType[] = [];
-  inputValue = '';
+  unidentifiedCityTypes: string[] = []
+  uniqueOriginalCityTypes: OriginalCityType[] = [];
+  selectedValue: number = -1;
+  popoverVisible: boolean = false;
+  unidentifiedCityType: string = '';
+
 
   constructor(private restService: RestService, public message: NzMessageService) {
   }
 
   ngOnInit(): void {
-    this.changePage(1)
+    this.onChangePage(1)
+    this.loadIncorrectCities();
   }
 
-  changePage(page: number) {
-    console.log("changePage")
+  onChangePage(page: number) {
+    console.log("changePage: " + page)
     this.restService.getOriginalCityTypes(page - 1, 10)
       .pipe(
         catchError((error, test2) => {
@@ -37,45 +42,25 @@ export class CityTypeDictionaryComponent implements OnInit {
     });
   }
 
-  addNewAlternativeCityType(originalCityType: OriginalCityType): void {
-    console.log("addNewAlternativeCityType")
-    this.restService.createNewAlternativeCityType(this.inputValue, originalCityType.id)
-      .pipe(
-        catchError((error, test2) => {
-          this.message.create("error", error.error.detail)
-          return throwError('Something bad happened; please try again later.');
-        })
-      ).subscribe(value => {
-      this.message.create("success", "Successful added " + value.title)
-      let temp = [...originalCityType.alternativeCityTypes];
-      temp.push(value)
-      originalCityType.alternativeCityTypes = temp
-    })
-    this.inputValue = '';
-    originalCityType.visibleInputNewType = false
-  }
-
-  handleInputEscape(cityType: OriginalCityType) {
-    cityType.visibleInputNewType = false
-    this.inputValue = '';
-  }
 
   deleteAltType(cityType: OriginalCityType, alternativeCityType: OriginalCityType) {
     console.log("deleteAltType")
-    this.restService.deleteAlternativeCityType(alternativeCityType.id)
+    this.restService.removeAlternativeCityType(alternativeCityType.id)
       .pipe(
         catchError((error, test2) => {
           this.message.create("error", error.error.detail)
           return throwError('Something bad happened; please try again later.');
         })
-      ).subscribe(value => {
-      this.message.create("success", alternativeCityType.title + " has been deleted")
-      let temp: OriginalCityType[] = []
-      cityType.alternativeCityTypes.forEach(value => {
-        if (value != alternativeCityType) temp.push(value);
+      )
+      .subscribe(value => {
+        this.message.create("success", alternativeCityType.title + " has been deleted")
+        let temp: OriginalCityType[] = []
+        cityType.alternativeCityTypes.forEach(value => {
+          if (value != alternativeCityType) temp.push(value);
+        })
+        cityType.alternativeCityTypes = temp;
+        this.loadIncorrectCities();
       })
-      cityType.alternativeCityTypes = temp;
-    })
   }
 
   createAsCity(cityType: OriginalCityType, alternativeCityType: OriginalCityType) {
@@ -97,16 +82,9 @@ export class CityTypeDictionaryComponent implements OnInit {
 
       let temp2: OriginalCityType[] = [...this.originalCityTypes]
       temp2.push(value);
-      this.originalCityTypes=temp2;
+      this.originalCityTypes = temp2;
 
     });
-  }
-
-  showInputNewAlternativeCityType(originalCityType: OriginalCityType) {
-    originalCityType.visibleInputNewType = true
-    setTimeout(() => {
-      (document.getElementById("addNewAlternativeCityTypeId")as HTMLElement).focus();
-    }, 10);
   }
 
   deleteOriginalCityType(originalCityType: OriginalCityType) {
@@ -125,9 +103,9 @@ export class CityTypeDictionaryComponent implements OnInit {
           if (value != originalCityType) temp.push(value);
         })
         this.originalCityTypes = temp;
+        this.loadIncorrectCities();
       });
   }
-
 
   makeOriginalCityType(originalCityType: OriginalCityType, alternativeCityType: OriginalCityType) {
     console.log("deleteOriginalCityType")
@@ -139,21 +117,69 @@ export class CityTypeDictionaryComponent implements OnInit {
         })
       )
       .subscribe(value => {
-        this.message.create("success","operation success")
+        this.message.create("success", "operation success")
         let title = originalCityType.title;
-        originalCityType.title= alternativeCityType.title
-        alternativeCityType.title=title
+        originalCityType.title = alternativeCityType.title
+        alternativeCityType.title = title
       });
   }
-}
 
+  createNewCity(unidentifiedCityType: String) {
+    this.restService.createNewOriginalCityType(unidentifiedCityType)
+      .pipe(
+        catchError((error, test2) => {
+          this.message.create("error", error.error.detail)
+          return throwError('Something bad happened; please try again later.');
+        })
+      )
+      .subscribe(value => {
+        this.message.create("success", "operation success")
+        let temp2: OriginalCityType[] = [...this.originalCityTypes]
+        temp2.push(value);
+        this.originalCityTypes = temp2;
+        this.loadIncorrectCities();
+      });
+
+
+  }
+
+  loadUniqueOriginalCityTypes() {
+    this.restService.getUniqueOriginalCityTypes()
+      .subscribe(value => {
+        this.uniqueOriginalCityTypes = value;
+      });
+
+  }
+
+  onChangeNewCity() {
+    console.log("CreateNewAlternativeCityType")
+    this.popoverVisible = false;
+    this.restService.createNewAlternativeCityType(this.unidentifiedCityType, this.selectedValue)
+      .pipe(
+        catchError((error, test2) => {
+          this.message.create("error", error.error.detail)
+          return throwError('Something bad happened; please try again later.');
+        })
+      )
+      .subscribe(value => {
+        this.message.create("success", "operation success")
+        this.loadIncorrectCities();
+      });
+    this.selectedValue=-1;
+  }
+
+  private loadIncorrectCities() {
+    this.restService.findUnidentifiedCityTypes().subscribe(value => {
+      this.unidentifiedCityTypes = value.sort();
+    })
+  }
+}
 
 
 export interface OriginalCityType {
   id: number,
   title: string,
   alternativeCityTypes: OriginalCityType[],
-  visibleInputNewType: boolean
 }
 
 export interface PageOriginalCityType {

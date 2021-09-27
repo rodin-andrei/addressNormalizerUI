@@ -26,6 +26,11 @@ import { StreetNameDictionaryComponent } from './street-dictionary/street-name-d
 import { CityTypeDictionaryComponent } from './city-type-dictionary/city-type-dictionary.component';
 import { StreetTypeDictionaryComponent } from './street-type-dictionary/street-type-dictionary.component';
 import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzPopoverModule} from "ng-zorro-antd/popover";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzAutocompleteModule} from "ng-zorro-antd/auto-complete";
+import {NzButtonModule} from "ng-zorro-antd/button";
+import {NzSelectModule} from "ng-zorro-antd/select";
 
 registerLocaleData(en);
 
@@ -56,7 +61,12 @@ registerLocaleData(en);
         NzModalModule,
         NzMessageModule,
         AppRoutingModule,
-        NzBadgeModule
+        NzBadgeModule,
+        NzPopoverModule,
+        NzInputModule,
+        NzAutocompleteModule,
+        NzButtonModule,
+        NzSelectModule
     ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]

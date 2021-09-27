@@ -46,15 +46,15 @@ export class RestService {
   }
 
   getOriginalCityNames(page: number, size: number): Observable<PageOriginalCityName> {
-    return this.http.get<PageOriginalCityName>("api/getDictionaryCityNames?pageNumber=" + page + "&sizeNumber=" + size);
+    return this.http.get<PageOriginalCityName>("api/getOriginalCityNames?pageNumber=" + page + "&sizeNumber=" + size);
   }
 
-  deleteAlternativeCityName(id: number): Observable<void> {
-    return this.http.get<void>("api/deleteAlternativeCityName?id=" + id)
+  removeAlternativeCityName(id: number): Observable<void> {
+    return this.http.get<void>("api/removeAlternativeCityName?id=" + id)
   }
 
   createNewAlternativeCityName(title: string, id: number): Observable<OriginalCityName> {
-    return this.http.get<OriginalCityName>("api/createAlternativeCityName?title=" + title + "&id=" + id)
+    return this.http.get<OriginalCityName>("api/createAlternativeCityName?title=" + title + "&originalCityNameId=" + id)
   }
 
   createOriginalCityNameFromAlternativeCityName(id: number): Observable<OriginalCityName> {
@@ -69,45 +69,32 @@ export class RestService {
     return this.http.get<OriginalCityName>('api/makeOriginalCityName?id=' + id);
   }
 
-
-
-
-  getOriginalStreetNames(page: number, size: number): Observable<PageOriginalStreetName> {
-    return this.http.get<PageOriginalStreetName>("api/getDictionaryStreetNames?pageNumber=" + page + "&sizeNumber=" + size);
+  findUnidentifiedCityNames(): Observable<string[]> {
+    return this.http.get<string[]>('api/findUnidentifiedCityNames');
   }
 
-  deleteAlternativeStreetName(id: number): Observable<void> {
-    return this.http.get<void>("api/deleteAlternativeStreetName?id=" + id)
+  createNewOriginalCityName(unidentifiedCityName: String): Observable<OriginalCityName> {
+    return this.http.get<OriginalCityName>('api/createNewOriginalCityName?title='+ unidentifiedCityName);
   }
 
-  createNewAlternativeStreetName(title: string, id: number): Observable<OriginalStreetName> {
-    return this.http.get<OriginalStreetName>("api/createAlternativeStreetName?title=" + title + "&id=" + id)
+  getUniqueOriginalCityNames() : Observable<OriginalCityName[]> {
+    return this.http.get<OriginalCityName[]>('api/getUniqueOriginalCityNames');
   }
 
-  createOriginalStreetNameFromAlternativeStreetName(id: number): Observable<OriginalStreetName> {
-    return this.http.get<OriginalStreetName>('api/createOriginalStreetNameFromAlternativeStreetName?id=' + id);
-  }
 
-  removeOriginalStreetName(id: number): Observable<void> {
-    return this.http.get<void>('api/removeOriginalStreetName?id=' + id);
-  }
-
-  makeOriginalStreetName(id: number): Observable<OriginalStreetName> {
-    return this.http.get<OriginalStreetName>('api/makeOriginalStreetName?id=' + id);
-  }
 
 
 
   getOriginalCityTypes(page: number, size: number): Observable<PageOriginalCityType> {
-    return this.http.get<PageOriginalCityType>("api/getDictionaryCityTypes?pageNumber=" + page + "&sizeNumber=" + size);
+    return this.http.get<PageOriginalCityType>("api/getOriginalCityTypes?pageNumber=" + page + "&sizeNumber=" + size);
   }
 
-  deleteAlternativeCityType(id: number): Observable<void> {
-    return this.http.get<void>("api/deleteAlternativeCityType?id=" + id)
+  removeAlternativeCityType(id: number): Observable<void> {
+    return this.http.get<void>("api/removeAlternativeCityType?id=" + id)
   }
 
   createNewAlternativeCityType(title: string, id: number): Observable<OriginalCityType> {
-    return this.http.get<OriginalCityType>("api/createAlternativeCityType?title=" + title + "&id=" + id)
+    return this.http.get<OriginalCityType>("api/createAlternativeCityType?title=" + title + "&originalCityTypeId=" + id)
   }
 
   createOriginalCityTypeFromAlternativeCityType(id: number): Observable<OriginalCityType> {
@@ -122,19 +109,72 @@ export class RestService {
     return this.http.get<OriginalCityType>('api/makeOriginalCityType?id=' + id);
   }
 
+  findUnidentifiedCityTypes(): Observable<string[]> {
+    return this.http.get<string[]>('api/findUnidentifiedCityTypes');
+  }
+
+  createNewOriginalCityType(unidentifiedCityType: String): Observable<OriginalCityType> {
+    return this.http.get<OriginalCityType>('api/createNewOriginalCityType?title='+ unidentifiedCityType);
+  }
+
+  getUniqueOriginalCityTypes() : Observable<OriginalCityType[]> {
+    return this.http.get<OriginalCityType[]>('api/getUniqueOriginalCityTypes');
+  }
+
+
+  getOriginalStreetNames(page: number, size: number): Observable<PageOriginalStreetName> {
+    return this.http.get<PageOriginalStreetName>("api/getOriginalStreetNames?pageNumber=" + page + "&sizeNumber=" + size);
+  }
+
+  removeAlternativeStreetName(id: number): Observable<void> {
+    return this.http.get<void>("api/removeAlternativeStreetName?id=" + id)
+  }
+
+  createNewAlternativeStreetName(title: string, id: number): Observable<OriginalStreetName> {
+    return this.http.get<OriginalStreetName>("api/createAlternativeStreetName?title=" + title + "&originalStreetNameId=" + id)
+  }
+
+  createOriginalStreetNameFromAlternativeStreetName(id: number): Observable<OriginalStreetName> {
+    return this.http.get<OriginalStreetName>('api/createOriginalStreetNameFromAlternativeStreetName?id=' + id);
+  }
+
+  removeOriginalStreetName(id: number): Observable<void> {
+    return this.http.get<void>('api/removeOriginalStreetName?id=' + id);
+  }
+
+  makeOriginalStreetName(id: number): Observable<OriginalStreetName> {
+    return this.http.get<OriginalStreetName>('api/makeOriginalStreetName?id=' + id);
+  }
+
+  findUnidentifiedStreetNames(): Observable<string[]> {
+    return this.http.get<string[]>('api/findUnidentifiedStreetNames');
+  }
+
+  createNewOriginalStreetName(unidentifiedStreetName: String): Observable<OriginalStreetName> {
+    return this.http.get<OriginalStreetName>('api/createNewOriginalStreetName?title='+ unidentifiedStreetName);
+  }
+
+  getUniqueOriginalStreetNames() : Observable<OriginalStreetName[]> {
+    return this.http.get<OriginalStreetName[]>('api/getUniqueOriginalStreetNames');
+  }
+
+
+
+
+
 
 
 
   getOriginalStreetTypes(page: number, size: number): Observable<PageOriginalStreetType> {
-    return this.http.get<PageOriginalStreetType>("api/getDictionaryStreetTypes?pageNumber=" + page + "&sizeNumber=" + size);
+    return this.http.get<PageOriginalStreetType>("api/getOriginalStreetTypes?pageNumber=" + page + "&sizeNumber=" + size);
   }
 
-  deleteAlternativeStreetType(id: number): Observable<void> {
-    return this.http.get<void>("api/deleteAlternativeStreetType?id=" + id)
+  removeAlternativeStreetType(id: number): Observable<void> {
+    return this.http.get<void>("api/removeAlternativeStreetType?id=" + id)
   }
 
   createNewAlternativeStreetType(title: string, id: number): Observable<OriginalStreetType> {
-    return this.http.get<OriginalStreetType>("api/createAlternativeStreetType?title=" + title + "&id=" + id)
+    return this.http.get<OriginalStreetType>("api/createAlternativeStreetType?title=" + title + "&originalStreetTypeId=" + id)
   }
 
   createOriginalStreetTypeFromAlternativeStreetType(id: number): Observable<OriginalStreetType> {
@@ -149,5 +189,15 @@ export class RestService {
     return this.http.get<OriginalStreetType>('api/makeOriginalStreetType?id=' + id);
   }
 
+  findUnidentifiedStreetTypes(): Observable<string[]> {
+    return this.http.get<string[]>('api/findUnidentifiedStreetTypes');
+  }
 
+  createNewOriginalStreetType(unidentifiedStreetType: String): Observable<OriginalStreetType> {
+    return this.http.get<OriginalStreetType>('api/createNewOriginalStreetType?title='+ unidentifiedStreetType);
+  }
+
+  getUniqueOriginalStreetTypes() : Observable<OriginalStreetType[]> {
+    return this.http.get<OriginalStreetType[]>('api/getUniqueOriginalStreetTypes');
+  }
 }
