@@ -1,6 +1,5 @@
-
 <nz-table #basicTable [nzTotal]=addressCount [nzData]="listOfData" [nzFrontPagination]="false"
-          (nzPageIndexChange)="changePageFix($event,true)" [(nzPageIndex)]="pageNumber">
+          (nzPageIndexChange)="changePageFix($event,true)" [(nzPageIndex)]="pageNumber" [nzLoading]="loading">
   <thead>
   <tr>
     <th>id
@@ -161,6 +160,65 @@
     <td>{{data.phone_Number}}</td>
     <td>{{data.statut_Telefon}}</td>
     <td>{{data.proprietar_Telefon}}</td>
+    <td><i nz-icon nzType="edit" nzTheme="twotone" style="cursor: pointer; font-size: 18px" (click)="edit(data)"></i>
+    </td>
   </tr>
   </tbody>
 </nz-table>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Address editing" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <ng-container *nzModalContent style="display: flex">
+    <div style="display: flex">
+      <h4>ID</h4>
+      <input nz-input class="modalInput" [disabled]="true" [(ngModel)]="modalData.id"/>
+    </div>
+    <div style="display: flex">
+      <h4>Post Code</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.post_Code"/>
+    </div>
+    <div style="display: flex">
+      <h4>District</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.district"/>
+    </div>
+    <div style="display: flex">
+      <h4>City Type</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.correct_City_Type"/>
+    </div>
+    <div style="display: flex">
+      <h4>City</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.city"/>
+    </div>
+    <div style="display: flex">
+      <h4>Street Type</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.correct_Street_Type"/>
+    </div>
+    <div style="display: flex">
+      <h4>Street</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.street"/>
+    </div>
+    <div style="display: flex">
+      <h4>House</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.house"/>
+    </div>
+    <div style="display: flex">
+      <h4>Flat</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.flat"/>
+    </div>
+    <div style="display: flex">
+      <h4>Statut Adresa</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.statut_Adresa"/>
+    </div>
+    <div style="display: flex">
+      <h4>Phone Number</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.phone_Number"/>
+    </div>
+    <div style="display: flex">
+      <h4>Statut Telefon</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.statut_Telefon"/>
+    </div>
+    <div style="display: flex">
+      <h4>Proprietar Telefon</h4>
+      <input nz-input class="modalInput" [(ngModel)]="modalData.proprietar_Telefon"/>
+    </div>
+  </ng-container>
+</nz-modal>

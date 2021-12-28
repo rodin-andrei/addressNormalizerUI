@@ -1,12 +1,22 @@
-th{
+th {
   text-align: center;
   vertical-align: bottom;
 }
+
 input {
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px 0;
   border: 2px solid #eee;
-  border-radius:10px;
+  border-radius: 10px;
+}
 
+.modalInput {
+  width: 50%;
+}
+
+h4{
+  width: 140px;
+  margin-top: 16px;
+  margin-left: 46px;
 }

@@ -18,6 +18,7 @@ export class CityNameDictionaryComponent implements OnInit {
   selectedValue: number = 1;
   popoverVisible: boolean = false;
   unidentifiedCityName: string = '';
+  loading = true;
 
 
   constructor(private restService: RestService, public message: NzMessageService) {
@@ -171,6 +172,7 @@ export class CityNameDictionaryComponent implements OnInit {
   private loadIncorrectCities() {
     this.restService.findUnidentifiedCityNames().subscribe(value => {
       this.unidentifiedCityNames = value.sort();
+      this.loading = false;
     })
   }
 }

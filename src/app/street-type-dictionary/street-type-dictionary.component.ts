@@ -18,6 +18,7 @@ export class StreetTypeDictionaryComponent implements OnInit {
   selectedValue: number = 1;
   popoverVisible: boolean = false;
   unidentifiedStreetType: string = '';
+  loading = true;
 
 
   constructor(private restService: RestService, public message: NzMessageService) {
@@ -171,6 +172,7 @@ export class StreetTypeDictionaryComponent implements OnInit {
   private loadIncorrectCities() {
     this.restService.findUnidentifiedStreetTypes().subscribe(value => {
       this.unidentifiedStreetTypes = value.sort();
+      this.loading = false;
     })
   }
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {PageAddress} from '../adress-viewer/adress-viewer.component';
+import {Address, PageAddress} from '../adress-viewer/adress-viewer.component';
 import {OriginalCityName, PageOriginalCityName} from '../city-dictionary/city-name-dictionary.component';
 import {OriginalStreetName, PageOriginalStreetName} from "../street-dictionary/street-name-dictionary.component";
 import {OriginalCityType, PageOriginalCityType} from "../city-type-dictionary/city-type-dictionary.component";
@@ -199,5 +199,12 @@ export class RestService {
 
   getUniqueOriginalStreetTypes() : Observable<OriginalStreetType[]> {
     return this.http.get<OriginalStreetType[]>('api/getUniqueOriginalStreetTypes');
+  }
+
+  editAddress(id: number, post_Code: string, district: string, correct_City_Type: string, city: string,
+              correct_Street_Type: string, street: string, house: string, flat: string): Observable<void> {
+    return this.http.get<void>('api/updateAddress' + '?id=' + id + '&post_Code=' + post_Code + '&district=' +
+      district + '&correct_City_Type=' + correct_City_Type + '&city=' + city + '&correct_Street_Type=' +
+      correct_Street_Type + '&street=' + street + '&house=' + house + '&flat=' + flat);
   }
 }

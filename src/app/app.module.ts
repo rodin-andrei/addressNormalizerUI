@@ -31,6 +31,7 @@ import {NzInputModule} from "ng-zorro-antd/input";
 import {NzAutocompleteModule} from "ng-zorro-antd/auto-complete";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzSelectModule} from "ng-zorro-antd/select";
+import {NzSpinModule} from "ng-zorro-antd/spin";
 
 registerLocaleData(en);
 
@@ -66,7 +67,8 @@ registerLocaleData(en);
         NzInputModule,
         NzAutocompleteModule,
         NzButtonModule,
-        NzSelectModule
+        NzSelectModule,
+        NzSpinModule
     ],
   providers: [{provide: NZ_I18N, useValue: en_US}],
   bootstrap: [AppComponent]
