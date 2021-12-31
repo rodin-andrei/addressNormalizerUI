@@ -12,6 +12,7 @@ export class AdressViewerComponent implements OnInit {
   loading = true;
   isVisible = false;
   modalData: any;
+  array = [];
 
   filter_id: string = "";
   filter_post_Code: string = "";
@@ -66,7 +67,7 @@ export class AdressViewerComponent implements OnInit {
       10);
     config.subscribe(page => {
       this.loading = true;
-      this.listOfData = [...page.content]
+      this.listOfData = [...page.content];
       this.addressCount = page.totalElements;
       this.loading = false;
     });
@@ -82,7 +83,6 @@ export class AdressViewerComponent implements OnInit {
     this.restService.editAddress(this.modalData.id, this.modalData.post_Code, this.modalData.district,
       this.modalData.correct_City_Type, this.modalData.city, this.modalData.correct_Street_Type,
       this.modalData.street, this.modalData.house, this.modalData.flat).subscribe(value => {
-      console.log(value);
     })
     this.isVisible = false;
   }
@@ -90,15 +90,27 @@ export class AdressViewerComponent implements OnInit {
   handleCancel(): void {
     this.isVisible = false;
   }
+
+  backup(data: Address) {
+    this.modalData = Object.assign({}, data);
+    this.restService.backupAddress(this.modalData.id).subscribe(value => {
+      this.modalData = {
+        id: value.id, post_Code: value.post_Code, district: value.district, correct_City_Type: value.typeCity,
+        city: value.city, correct_Street_Type: value.typeStreet, street: value.street, house: value.house,
+        flat: value.flat
+      }
+      this.isVisible = true;
+    })
+  }
 }
 
 export interface Address {
-  id: number
-  post_Code: string
-  district: string
-  type_City: string;
+  id: number;
+  post_Code: string;
+  district: string;
+  typeCity: string;
   city: string;
-  type_Street: string;
+  typeStreet: string;
   street: string;
   house: string;
   flat: string;

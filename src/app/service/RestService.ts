@@ -207,4 +207,8 @@ export class RestService {
       district + '&correct_City_Type=' + correct_City_Type + '&city=' + city + '&correct_Street_Type=' +
       correct_Street_Type + '&street=' + street + '&house=' + house + '&flat=' + flat);
   }
+
+  backupAddress(id: number): Observable<Address> {
+    return this.http.get<Address>('api/backupAddress' + '?id=' + id);
+  }
 }

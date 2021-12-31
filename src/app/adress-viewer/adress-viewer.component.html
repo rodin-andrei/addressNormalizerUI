@@ -123,6 +123,9 @@
                                                                                        type="text"
                                                                                        style="width: 80%; "/></div>
     </th>
+    <th>Actions
+      <div style="margin-bottom: 52px"></div>
+    </th>
   </tr>
   </thead>
   <tbody>
@@ -130,9 +133,9 @@
     <td>{{data.id}}</td>
     <td>{{data.post_Code}}</td>
     <td>{{data.district}}</td>
-    <td>{{data.type_City}}
+    <td>{{data.typeCity}}
       <div style="color: red"
-           *ngIf="data.correct_City_Type!=null   && data.correct_City_Type!='' && data.correct_City_Type != data.type_City">
+           *ngIf="data.correct_City_Type!=null   && data.correct_City_Type!='' && data.correct_City_Type != data.typeCity">
         ({{data.correct_City_Type}})
       </div>
     </td>
@@ -142,9 +145,9 @@
         ({{data.correct_City_Name}})
       </div>
     </td>
-    <td>{{data.type_Street}}
+    <td>{{data.typeStreet}}
       <div style="color: red"
-           *ngIf="data.correct_Street_Type!=null && data.correct_Street_Type!='' && data.correct_Street_Type != data.type_Street">
+           *ngIf="data.correct_Street_Type!=null && data.correct_Street_Type!='' && data.correct_Street_Type != data.typeStreet">
         ({{data.correct_Street_Type}})
       </div>
     </td>
@@ -160,13 +163,16 @@
     <td>{{data.phone_Number}}</td>
     <td>{{data.statut_Telefon}}</td>
     <td>{{data.proprietar_Telefon}}</td>
-    <td><i nz-icon nzType="edit" nzTheme="twotone" style="cursor: pointer; font-size: 18px" (click)="edit(data)"></i>
+    <td>
+      <i nz-icon nzType="edit" nzTheme="twotone" style="cursor: pointer; font-size: 18px;" (click)="edit(data)"></i>
+      <i nz-icon nzType="database" nzTheme="twotone" style="cursor: pointer; font-size: 18px; margin-left: 6px;"
+         (click)="backup(data)"></i>
     </td>
   </tr>
   </tbody>
 </nz-table>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Address editing" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Address Info" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent style="display: flex">
     <div style="display: flex">
       <h4>ID</h4>
